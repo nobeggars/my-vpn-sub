@@ -5,17 +5,21 @@
 Логика:
 1. Скачивает SOURCE_URL — построчный список vless:// конфигов.
 2. Отбрасывает конфиги с флагом RU в названии.
-3. Фасует оставшиеся по GROUP_SIZE штук.
-4. Для каждой группы собирает отдельный "сервер" — полноценный
-   Xray-конфиг с балансировщиком (routing.balancers, strategy=leastPing)
-   и observatory, который сам пингует кандидатов и живёт с самым быстрым.
-5. Пишет итоговый массив таких конфигов в OUTPUT_FILE — это и есть
-   подписка, которую Happ понимает "из коробки".
+3. Фасует оставшиеся по GROUP_SIZE штук -> балансировщики AUTO N.
+4. Дополнительно: через каждый кандидат поднимает временный SOCKS
+   (xray-core) и проверяет, открывается ли через него Gemini.
+   Все прошедшие проверку уходят одним отдельным сервером в конец
+   подписки — с балансировщиком внутри (тоже leastPing).
 """
 
 import json
+import os
+import shutil
+import subprocess
+import tempfile
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 SOURCE_URL = "https://raw.githubusercontent.com/zieng2/wl/refs/heads/main/vless_universal.txt"
 GROUP_SIZE = 10
@@ -23,6 +27,15 @@ LABEL_TEMPLATE = "🇲🇦 🗽 LTE EU | AUTO {n}"
 OUTPUT_FILE = "subscription.json"
 
 RU_FLAG = "\U0001F1F7\U0001F1FA"  # 🇷🇺
+
+# --- Gemini-проверка ---
+CHECK_GEMINI = True
+GEMINI_LABEL = "🇲🇦 ⭐ LTE Gemini | Auto"
+GEMINI_TEST_URL = "https://gemini.google.com/app"
+GEMINI_TIMEOUT = 8          # сек на один тест
+GEMINI_MAX_WORKERS = 8      # сколько кандидатов проверяем параллельно
+GEMINI_BASE_PORT = 20000
+XRAY_BIN = shutil.which(os.environ.get("XRAY_BIN", "xray"))
 
 
 def fetch_source(url: str):
@@ -134,14 +147,14 @@ def build_outbound(tag: str, cfg: dict) -> dict:
     return outbound
 
 
-def build_group_config(group: list, index: int) -> dict:
+def build_group_config(group: list, index: int, label: str = None) -> dict:
     tags = [f"cand-{i + 1:02d}" for i in range(len(group))]
     outbounds = [build_outbound(tag, cfg) for tag, cfg in zip(tags, group)]
     outbounds.append({"tag": "direct", "protocol": "freedom"})
     outbounds.append({"tag": "block", "protocol": "blackhole"})
 
     return {
-        "remarks": LABEL_TEMPLATE.format(n=index),
+        "remarks": label if label else LABEL_TEMPLATE.format(n=index),
         "dns": {
             "servers": [
                 "https://8.8.8.8/dns-query",
@@ -210,6 +223,98 @@ def build_group_config(group: list, index: int) -> dict:
     }
 
 
+def test_gemini(cfg: dict, port: int) -> bool:
+    """Поднимает временный SOCKS через кандидата и проверяет доступ к Gemini."""
+    single_conf = {
+        "log": {"loglevel": "none"},
+        "inbounds": [
+            {
+                "tag": "socks",
+                "port": port,
+                "listen": "127.0.0.1",
+                "protocol": "socks",
+                "settings": {"udp": True, "auth": "noauth"},
+            }
+        ],
+        "outbounds": [build_outbound("proxy", cfg)],
+    }
+
+    conf_fd, conf_path = tempfile.mkstemp(suffix=".json")
+    body_fd, body_path = tempfile.mkstemp(suffix=".html")
+    proc = None
+    try:
+        with os.fdopen(conf_fd, "w", encoding="utf-8") as f:
+            json.dump(single_conf, f)
+
+        proc = subprocess.Popen(
+            [XRAY_BIN, "run", "-c", conf_path],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+
+        result = subprocess.run(
+            [
+                "curl", "-s", "-o", body_path, "-w", "%{http_code}",
+                "--max-time", str(GEMINI_TIMEOUT),
+                "--socks5-hostname", f"127.0.0.1:{port}",
+                GEMINI_TEST_URL,
+            ],
+            capture_output=True, text=True, timeout=GEMINI_TIMEOUT + 5,
+        )
+        code = result.stdout.strip()
+        if code != "200":
+            return False
+
+        try:
+            with open(body_path, "r", encoding="utf-8", errors="ignore") as f:
+                body = f.read().lower()
+        except Exception:
+            body = ""
+        if "not available in your country" in body or "isn't available" in body:
+            return False
+        return True
+    except Exception:
+        return False
+    finally:
+        if proc is not None:
+            proc.terminate()
+            try:
+                proc.wait(timeout=3)
+            except Exception:
+                proc.kill()
+        for path in (conf_path, body_path):
+            try:
+                os.unlink(path)
+            except Exception:
+                pass
+
+
+def find_gemini_servers(parsed: list) -> list:
+    if not CHECK_GEMINI:
+        return []
+    if not XRAY_BIN:
+        print("xray не найден в PATH — пропускаю проверку Gemini")
+        return []
+
+    print(f"Проверяю доступ к Gemini через {len(parsed)} серверов...")
+    working = []
+    with ThreadPoolExecutor(max_workers=GEMINI_MAX_WORKERS) as ex:
+        futures = {
+            ex.submit(test_gemini, cfg, GEMINI_BASE_PORT + i): cfg
+            for i, cfg in enumerate(parsed)
+        }
+        for fut in as_completed(futures):
+            cfg = futures[fut]
+            try:
+                if fut.result():
+                    working.append(cfg)
+            except Exception:
+                pass
+
+    print(f"Gemini доступен через {len(working)} серверов")
+    return working
+
+
 def main():
     lines = fetch_source(SOURCE_URL)
 
@@ -225,10 +330,14 @@ def main():
     groups = [parsed[i:i + GROUP_SIZE] for i in range(0, len(parsed), GROUP_SIZE)]
     result = [build_group_config(g, idx + 1) for idx, g in enumerate(groups) if g]
 
+    gemini_ok = find_gemini_servers(parsed)
+    if gemini_ok:
+        result.append(build_group_config(gemini_ok, index=0, label=GEMINI_LABEL))
+
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
-    print(f"OK: {len(parsed)} серверов (без RU) -> {len(result)} групп по {GROUP_SIZE} -> {OUTPUT_FILE}")
+    print(f"OK: {len(parsed)} серверов (без RU) -> {len(result)} групп -> {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

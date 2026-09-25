@@ -18,6 +18,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Xray-core
+        run: |
+          curl -L -o xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
+          unzip -o xray.zip -d xray-bin
+          sudo mv xray-bin/xray /usr/local/bin/xray
+          sudo chmod +x /usr/local/bin/xray
+
       - name: Build subscription.json
         run: python build_subscription.py
 

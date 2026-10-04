@@ -6,10 +6,13 @@
 1. Скачивает SOURCE_URL — построчный список vless:// конфигов.
 2. Отбрасывает конфиги с флагом RU в названии.
 3. Фасует оставшиеся по GROUP_SIZE штук -> балансировщики AUTO N.
-4. Дополнительно: через каждый кандидат поднимает временный SOCKS
-   (xray-core) и проверяет, открывается ли через него Gemini.
-   Все прошедшие проверку уходят одним отдельным сервером в конец
-   подписки — с балансировщиком внутри (тоже leastPing).
+4. Для Gemini:
+   а) через ip-api.com узнаёт тип каждого IP (mobile/hosting/proxy) —
+      отсеивает явные датацентры, оставляет похожих на мобильных/
+      резидентных операторов (как в платных LTE-VPN);
+   б) по оставшимся — реальная проверка через xray-core: поднимает
+      временный SOCKS и стучится в Gemini.
+   Все прошедшие уходят одним отдельным сервером в конец подписки.
 """
 
 import json
@@ -17,6 +20,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import time
 import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -36,6 +40,15 @@ GEMINI_TIMEOUT = 8          # сек на один тест
 GEMINI_MAX_WORKERS = 8      # сколько кандидатов проверяем параллельно
 GEMINI_BASE_PORT = 20000
 XRAY_BIN = shutil.which(os.environ.get("XRAY_BIN", "xray"))
+
+# --- Предфильтр по типу IP (мобильный/резидентный vs датацентр) ---
+# Если True — берём в проверку ТОЛЬКО то, что ip-api явно пометил как mobile.
+# Если False (по умолчанию) — берём всё, что НЕ датацентр и НЕ прокси
+# (шире охват: некоторые мобильные операторы не всегда помечены mobile=true).
+GEMINI_REQUIRE_MOBILE_FLAG = False
+IPAPI_BATCH_URL = "http://ip-api.com/batch?fields=status,query,mobile,hosting,proxy"
+IPAPI_CHUNK = 100
+IPAPI_SLEEP_BETWEEN_CHUNKS = 2  # сек, чтобы не упереться в рейт-лимит
 
 
 def fetch_source(url: str):
@@ -196,6 +209,11 @@ def build_group_config(group: list, index: int, label: str = None) -> dict:
             "rules": [
                 {
                     "type": "field",
+                    "protocol": ["quic"],
+                    "outboundTag": "block",
+                },
+                {
+                    "type": "field",
                     "protocol": ["bittorrent"],
                     "outboundTag": "direct",
                 },
@@ -223,8 +241,60 @@ def build_group_config(group: list, index: int, label: str = None) -> dict:
     }
 
 
+# ---------- Предфильтр по типу IP ----------
+
+def fetch_ip_info(ips: list) -> dict:
+    """Спрашивает ip-api.com: для каждого IP — mobile / hosting / proxy."""
+    info = {}
+    unique_ips = list(dict.fromkeys(ips))  # без дублей, сохраняя порядок
+    for i in range(0, len(unique_ips), IPAPI_CHUNK):
+        chunk = unique_ips[i:i + IPAPI_CHUNK]
+        payload = json.dumps(chunk).encode("utf-8")
+        req = urllib.request.Request(
+            IPAPI_BATCH_URL,
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            for item in data:
+                if item.get("status") == "success" and item.get("query"):
+                    info[item["query"]] = item
+        except Exception as e:
+            print("ip-api batch error:", e)
+        if i + IPAPI_CHUNK < len(unique_ips):
+            time.sleep(IPAPI_SLEEP_BETWEEN_CHUNKS)
+    return info
+
+
+def filter_likely_mobile(parsed: list) -> list:
+    """Отсеивает явные датацентры/прокси, оставляет похожих на мобильных/резидентных."""
+    ips = [cfg["host"] for cfg in parsed]
+    info = fetch_ip_info(ips)
+
+    likely = []
+    for cfg in parsed:
+        meta = info.get(cfg["host"])
+        if meta is None:
+            continue  # нет данных по IP — пропускаем, не тратим время xray
+
+        if meta.get("hosting") or meta.get("proxy"):
+            continue  # явный датацентр или известный прокси — почти наверняка забанен
+
+        if GEMINI_REQUIRE_MOBILE_FLAG and not meta.get("mobile"):
+            continue
+
+        likely.append(cfg)
+
+    print(f"Предфильтр по IP: {len(parsed)} -> {len(likely)} похожих на мобильные/резидентные")
+    return likely
+
+
+# ---------- Реальная проверка Gemini через xray ----------
+
 def test_gemini(cfg: dict, port: int) -> bool:
-    """Поднимает временный SOCKS через кандидата и проверяет доступ к Gemini."""
     single_conf = {
         "log": {"loglevel": "none"},
         "inbounds": [
@@ -289,19 +359,21 @@ def test_gemini(cfg: dict, port: int) -> bool:
                 pass
 
 
-def find_gemini_servers(parsed: list) -> list:
+def find_gemini_servers(candidates: list) -> list:
     if not CHECK_GEMINI:
         return []
     if not XRAY_BIN:
         print("xray не найден в PATH — пропускаю проверку Gemini")
         return []
+    if not candidates:
+        return []
 
-    print(f"Проверяю доступ к Gemini через {len(parsed)} серверов...")
+    print(f"Проверяю доступ к Gemini через {len(candidates)} серверов...")
     working = []
     with ThreadPoolExecutor(max_workers=GEMINI_MAX_WORKERS) as ex:
         futures = {
             ex.submit(test_gemini, cfg, GEMINI_BASE_PORT + i): cfg
-            for i, cfg in enumerate(parsed)
+            for i, cfg in enumerate(candidates)
         }
         for fut in as_completed(futures):
             cfg = futures[fut]
@@ -330,7 +402,8 @@ def main():
     groups = [parsed[i:i + GROUP_SIZE] for i in range(0, len(parsed), GROUP_SIZE)]
     result = [build_group_config(g, idx + 1) for idx, g in enumerate(groups) if g]
 
-    gemini_ok = find_gemini_servers(parsed)
+    mobile_like = filter_likely_mobile(parsed)
+    gemini_ok = find_gemini_servers(mobile_like)
     if gemini_ok:
         result.append(build_group_config(gemini_ok, index=0, label=GEMINI_LABEL))
 

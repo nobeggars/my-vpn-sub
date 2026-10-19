@@ -57,7 +57,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "78.159.250.84",
+              "address": "78.159.246.85",
               "port": 8443,
               "users": [
                 {
@@ -72,7 +72,7 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "summerculture.net",
+            "serverName": "fitindoor.net",
             "fingerprint": "firefox",
             "show": false,
             "alpn": [
@@ -83,7 +83,7 @@
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "host": "summerculture.net",
+            "host": "fitindoor.net",
             "extra": {
               "host": "",
               "path": "",
@@ -132,7 +132,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "78.159.246.179",
+              "address": "78.159.250.84",
               "port": 8443,
               "users": [
                 {
@@ -147,14 +147,18 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "randomquaint.net",
+            "serverName": "summerculture.net",
             "fingerprint": "firefox",
-            "show": false
+            "show": false,
+            "alpn": [
+              "http/1.1",
+              "h2"
+            ]
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "host": "randomquaint.net",
+            "host": "summerculture.net",
             "extra": {
               "host": "",
               "path": "",
@@ -302,6 +306,38 @@
         "settings": {
           "vnext": [
             {
+              "address": "78.159.246.85",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "fitindoor.net",
+            "fingerprint": "firefox",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "extra": null
+          }
+        }
+      },
+      {
+        "tag": "cand-07",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
               "address": "78.159.250.84",
               "port": 8443,
               "users": [
@@ -372,45 +408,12 @@
         }
       },
       {
-        "tag": "cand-07",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.246.179",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "randomquaint.net",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "randomquaint.net",
-            "extra": null
-          }
-        }
-      },
-      {
         "tag": "cand-08",
         "protocol": "vless",
         "settings": {
           "vnext": [
             {
-              "address": "78.159.250.84",
+              "address": "78.159.246.85",
               "port": 8443,
               "users": [
                 {
@@ -425,14 +428,14 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "summerculture.net",
-            "fingerprint": "firefox",
+            "serverName": "fitindoor.net",
+            "fingerprint": "chrome",
             "show": false
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "host": "summerculture.net",
+            "host": "fitindoor.net",
             "extra": {
               "host": "",
               "path": "",
@@ -496,9 +499,46 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
+            "serverName": "78.159.246.179",
+            "fingerprint": "chrome",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": null
+          }
+        }
+      },
+      {
+        "tag": "cand-10",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.179",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
             "serverName": "randomquaint.net",
             "fingerprint": "firefox",
-            "show": false
+            "show": false,
+            "alpn": [
+              "h2",
+              "http/1.1"
+            ]
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
@@ -529,77 +569,6 @@
               "noSSEHeader": false,
               "scMaxEachPostBytes": "1000000",
               "scMinPostsIntervalMs": "30",
-              "scMaxBufferedPosts": 0,
-              "scStreamUpServerSecs": "0",
-              "serverMaxHeaderBytes": 0,
-              "xmux": {
-                "maxConcurrency": "16-32",
-                "maxConnections": "0",
-                "cMaxReuseTimes": "64-128",
-                "hMaxRequestTimes": "0",
-                "hMaxReusableSecs": "0",
-                "hKeepAlivePeriod": 0
-              },
-              "downloadSettings": null,
-              "extra": null
-            }
-          }
-        }
-      },
-      {
-        "tag": "cand-10",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.250.84",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "summerculture.net",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "summerculture.net",
-            "extra": {
-              "host": "",
-              "path": "",
-              "mode": "",
-              "headers": null,
-              "xPaddingBytes": "100-1000",
-              "xPaddingObfsMode": false,
-              "xPaddingKey": "",
-              "xPaddingHeader": "",
-              "xPaddingPlacement": "",
-              "xPaddingMethod": "",
-              "uplinkHTTPMethod": "",
-              "sessionIDPlacement": "",
-              "sessionIDKey": "",
-              "sessionIDTable": "",
-              "sessionIDLength": "0",
-              "seqPlacement": "",
-              "seqKey": "",
-              "uplinkDataPlacement": "",
-              "uplinkDataKey": "",
-              "uplinkChunkSize": "0",
-              "noGRPCHeader": false,
-              "noSSEHeader": false,
-              "scMaxEachPostBytes": "0",
-              "scMinPostsIntervalMs": "0",
               "scMaxBufferedPosts": 0,
               "scStreamUpServerSecs": "0",
               "serverMaxHeaderBytes": 0,
@@ -751,7 +720,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "78.159.250.84",
+              "address": "78.159.246.85",
               "port": 8443,
               "users": [
                 {
@@ -766,127 +735,20 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "summerculture.net",
-            "fingerprint": "firefox",
-            "show": false,
-            "alpn": [
-              "http/1.1",
-              "h2"
-            ]
+            "serverName": "fitindoor.net",
+            "fingerprint": "chrome",
+            "show": false
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "host": "summerculture.net",
+            "host": "fitindoor.net",
             "extra": null
           }
         }
       },
       {
         "tag": "cand-02",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.246.179",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "randomquaint.net",
-            "fingerprint": "firefox",
-            "show": false,
-            "alpn": [
-              "h2",
-              "http/1.1"
-            ]
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "randomquaint.net",
-            "extra": null
-          }
-        }
-      },
-      {
-        "tag": "cand-03",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.250.84",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "summerculture.net",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "summerculture.net",
-            "extra": null
-          }
-        }
-      },
-      {
-        "tag": "cand-04",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.246.179",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "randomquaint.net",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "randomquaint.net",
-            "extra": null
-          }
-        }
-      },
-      {
-        "tag": "cand-05",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -957,7 +819,7 @@
         }
       },
       {
-        "tag": "cand-06",
+        "tag": "cand-03",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -1028,7 +890,78 @@
         }
       },
       {
-        "tag": "cand-07",
+        "tag": "cand-04",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.179",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "randomquaint.net",
+            "fingerprint": "firefox",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": {
+              "host": "",
+              "path": "",
+              "mode": "",
+              "headers": null,
+              "xPaddingBytes": "100-1000",
+              "xPaddingObfsMode": false,
+              "xPaddingKey": "",
+              "xPaddingHeader": "",
+              "xPaddingPlacement": "",
+              "xPaddingMethod": "",
+              "uplinkHTTPMethod": "",
+              "sessionIDPlacement": "",
+              "sessionIDKey": "",
+              "sessionIDTable": "",
+              "sessionIDLength": "0",
+              "seqPlacement": "",
+              "seqKey": "",
+              "uplinkDataPlacement": "",
+              "uplinkDataKey": "",
+              "uplinkChunkSize": "0",
+              "noGRPCHeader": false,
+              "noSSEHeader": false,
+              "scMaxEachPostBytes": "1000000",
+              "scMinPostsIntervalMs": "30",
+              "scMaxBufferedPosts": 0,
+              "scStreamUpServerSecs": "0",
+              "serverMaxHeaderBytes": 0,
+              "xmux": {
+                "maxConcurrency": "16-32",
+                "maxConnections": "0",
+                "cMaxReuseTimes": "64-128",
+                "hMaxRequestTimes": "0",
+                "hMaxReusableSecs": "0",
+                "hKeepAlivePeriod": 0
+              },
+              "downloadSettings": null,
+              "extra": null
+            }
+          }
+        }
+      },
+      {
+        "tag": "cand-05",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -1049,7 +982,44 @@
           "security": "tls",
           "tlsSettings": {
             "serverName": "summerculture.net",
-            "fingerprint": "random",
+            "fingerprint": "firefox",
+            "show": false,
+            "alpn": [
+              "http/1.1",
+              "h2"
+            ]
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "summerculture.net",
+            "extra": null
+          }
+        }
+      },
+      {
+        "tag": "cand-06",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.250.84",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "summerculture.net",
+            "fingerprint": "firefox",
             "show": false
           },
           "xhttpSettings": {
@@ -1061,7 +1031,7 @@
         }
       },
       {
-        "tag": "cand-08",
+        "tag": "cand-07",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -1132,16 +1102,16 @@
         }
       },
       {
-        "tag": "cand-09",
+        "tag": "cand-08",
         "protocol": "vless",
         "settings": {
           "vnext": [
             {
-              "address": "78.159.246.179",
+              "address": "78.159.250.84",
               "port": 8443,
               "users": [
                 {
-                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
                   "encryption": "none"
                 }
               ]
@@ -1152,15 +1122,124 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "randomquaint.net",
-            "fingerprint": "chrome",
+            "serverName": "summerculture.net",
+            "fingerprint": "firefox",
             "show": false
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "host": "randomquaint.net",
-            "extra": null
+            "host": "summerculture.net",
+            "extra": {
+              "host": "",
+              "path": "",
+              "mode": "",
+              "headers": null,
+              "xPaddingBytes": "100-1000",
+              "xPaddingObfsMode": false,
+              "xPaddingKey": "",
+              "xPaddingHeader": "",
+              "xPaddingPlacement": "",
+              "xPaddingMethod": "",
+              "uplinkHTTPMethod": "",
+              "sessionIDPlacement": "",
+              "sessionIDKey": "",
+              "sessionIDTable": "",
+              "sessionIDLength": "0",
+              "seqPlacement": "",
+              "seqKey": "",
+              "uplinkDataPlacement": "",
+              "uplinkDataKey": "",
+              "uplinkChunkSize": "0",
+              "noGRPCHeader": false,
+              "noSSEHeader": false,
+              "scMaxEachPostBytes": "1000000",
+              "scMinPostsIntervalMs": "30",
+              "scMaxBufferedPosts": 0,
+              "scStreamUpServerSecs": "0",
+              "serverMaxHeaderBytes": 0,
+              "xmux": {
+                "maxConcurrency": "16-32",
+                "maxConnections": "0",
+                "cMaxReuseTimes": "64-128",
+                "hMaxRequestTimes": "0",
+                "hMaxReusableSecs": "0",
+                "hKeepAlivePeriod": 0
+              },
+              "downloadSettings": null,
+              "extra": null
+            }
+          }
+        }
+      },
+      {
+        "tag": "cand-09",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.85",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "fitindoor.net",
+            "fingerprint": "firefox",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "fitindoor.net",
+            "extra": {
+              "host": "",
+              "path": "",
+              "mode": "",
+              "headers": null,
+              "xPaddingBytes": "100-1000",
+              "xPaddingObfsMode": false,
+              "xPaddingKey": "",
+              "xPaddingHeader": "",
+              "xPaddingPlacement": "",
+              "xPaddingMethod": "",
+              "uplinkHTTPMethod": "",
+              "sessionIDPlacement": "",
+              "sessionIDKey": "",
+              "sessionIDTable": "",
+              "sessionIDLength": "0",
+              "seqPlacement": "",
+              "seqKey": "",
+              "uplinkDataPlacement": "",
+              "uplinkDataKey": "",
+              "uplinkChunkSize": "0",
+              "noGRPCHeader": false,
+              "noSSEHeader": false,
+              "scMaxEachPostBytes": "1000000",
+              "scMinPostsIntervalMs": "30",
+              "scMaxBufferedPosts": 0,
+              "scStreamUpServerSecs": "0",
+              "serverMaxHeaderBytes": 0,
+              "xmux": {
+                "maxConcurrency": "16-32",
+                "maxConnections": "0",
+                "cMaxReuseTimes": "64-128",
+                "hMaxRequestTimes": "0",
+                "hMaxReusableSecs": "0",
+                "hKeepAlivePeriod": 0
+              },
+              "downloadSettings": null,
+              "extra": null
+            }
           }
         }
       },
@@ -1331,40 +1410,7 @@
         "settings": {
           "vnext": [
             {
-              "address": "78.159.246.85",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "fitindoor.net",
-            "fingerprint": "random",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "fitindoor.net",
-            "extra": null
-          }
-        }
-      },
-      {
-        "tag": "cand-02",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.246.85",
+              "address": "78.159.250.84",
               "port": 8443,
               "users": [
                 {
@@ -1379,46 +1425,14 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "fitindoor.net",
+            "serverName": "summerculture.net",
             "fingerprint": "firefox",
             "show": false
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "extra": null
-          }
-        }
-      },
-      {
-        "tag": "cand-03",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "78.159.246.179",
-              "port": 8443,
-              "users": [
-                {
-                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "randomquaint.net",
-            "fingerprint": "random",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/api/v1/upload",
-            "mode": "auto",
-            "host": "randomquaint.net",
+            "host": "summerculture.net",
             "extra": {
               "host": "",
               "path": "",
@@ -1442,8 +1456,8 @@
               "uplinkChunkSize": "0",
               "noGRPCHeader": false,
               "noSSEHeader": false,
-              "scMaxEachPostBytes": "1000000",
-              "scMinPostsIntervalMs": "30",
+              "scMaxEachPostBytes": "0",
+              "scMinPostsIntervalMs": "0",
               "scMaxBufferedPosts": 0,
               "scStreamUpServerSecs": "0",
               "serverMaxHeaderBytes": 0,
@@ -1462,7 +1476,106 @@
         }
       },
       {
+        "tag": "cand-02",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.250.84",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "summerculture.net",
+            "fingerprint": "random",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "summerculture.net",
+            "extra": null
+          }
+        }
+      },
+      {
+        "tag": "cand-03",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.179",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "randomquaint.net",
+            "fingerprint": "firefox",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": null
+          }
+        }
+      },
+      {
         "tag": "cand-04",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.179",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "randomquaint.net",
+            "fingerprint": "chrome",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": null
+          }
+        }
+      },
+      {
+        "tag": "cand-05",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -1533,7 +1646,111 @@
         }
       },
       {
-        "tag": "cand-05",
+        "tag": "cand-06",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.179",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "78.159.246.179",
+            "fingerprint": "chrome",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": null
+          }
+        }
+      },
+      {
+        "tag": "cand-07",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "78.159.246.179",
+              "port": 8443,
+              "users": [
+                {
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "randomquaint.net",
+            "fingerprint": "random",
+            "show": false
+          },
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": {
+              "host": "",
+              "path": "",
+              "mode": "",
+              "headers": null,
+              "xPaddingBytes": "100-1000",
+              "xPaddingObfsMode": false,
+              "xPaddingKey": "",
+              "xPaddingHeader": "",
+              "xPaddingPlacement": "",
+              "xPaddingMethod": "",
+              "uplinkHTTPMethod": "",
+              "sessionIDPlacement": "",
+              "sessionIDKey": "",
+              "sessionIDTable": "",
+              "sessionIDLength": "0",
+              "seqPlacement": "",
+              "seqKey": "",
+              "uplinkDataPlacement": "",
+              "uplinkDataKey": "",
+              "uplinkChunkSize": "0",
+              "noGRPCHeader": false,
+              "noSSEHeader": false,
+              "scMaxEachPostBytes": "1000000",
+              "scMinPostsIntervalMs": "30",
+              "scMaxBufferedPosts": 0,
+              "scStreamUpServerSecs": "0",
+              "serverMaxHeaderBytes": 0,
+              "xmux": {
+                "maxConcurrency": "16-32",
+                "maxConnections": "0",
+                "cMaxReuseTimes": "64-128",
+                "hMaxRequestTimes": "0",
+                "hMaxReusableSecs": "0",
+                "hKeepAlivePeriod": 0
+              },
+              "downloadSettings": null,
+              "extra": null
+            }
+          }
+        }
+      },
+      {
+        "tag": "cand-08",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -1604,7 +1821,7 @@
         }
       },
       {
-        "tag": "cand-06",
+        "tag": "cand-09",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -1675,16 +1892,16 @@
         }
       },
       {
-        "tag": "cand-07",
+        "tag": "cand-10",
         "protocol": "vless",
         "settings": {
           "vnext": [
             {
-              "address": "78.159.246.179",
+              "address": "78.159.246.85",
               "port": 8443,
               "users": [
                 {
-                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "id": "2c634977-584e-4e1f-b501-1b70c77a6743",
                   "encryption": "none"
                 }
               ]
@@ -1695,117 +1912,16 @@
           "network": "xhttp",
           "security": "tls",
           "tlsSettings": {
-            "serverName": "randomquaint.net",
-            "fingerprint": "firefox",
-            "show": false,
-            "alpn": [
-              "h2",
-              "http/1.1"
-            ]
+            "serverName": "fitindoor.net",
+            "fingerprint": "random",
+            "show": false
           },
           "xhttpSettings": {
             "path": "/api/v1/upload",
             "mode": "auto",
-            "host": "randomquaint.net",
+            "host": "fitindoor.net",
             "extra": null
           }
-        }
-      },
-      {
-        "tag": "cand-08",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "185.141.227.223",
-              "port": 443,
-              "users": [
-                {
-                  "id": "a443d7bf-f506-46ce-b64d-cf8891c0a9f7",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "ws",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "z1q3pv4g78.rucdncomp.pro",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "wsSettings": {
-            "path": "/useraction/events/b892639b7195/",
-            "headers": {
-              "Host": "z1q3pv4g78.rucdncomp.pro"
-            }
-          }
-        }
-      },
-      {
-        "tag": "cand-09",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "185.141.227.223",
-              "port": 443,
-              "users": [
-                {
-                  "id": "c720cb74-4c84-4fce-b8ae-637dbaa16199",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "ws",
-          "security": "tls",
-          "tlsSettings": {
-            "serverName": "z1q3pv4g78.rucdncomp.pro",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "wsSettings": {
-            "path": "/useraction/events/b892639b7195/",
-            "headers": {
-              "Host": "z1q3pv4g78.rucdncomp.pro"
-            }
-          }
-        }
-      },
-      {
-        "tag": "cand-10",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "81.94.148.162",
-              "port": 9446,
-              "users": [
-                {
-                  "id": "8571b13c-96ae-480a-8b0d-8969ceda21f8",
-                  "encryption": "none",
-                  "flow": "xtls-rprx-vision"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "tcp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "no.roskomnadzor.space",
-            "publicKey": "kUxaKv4LfQZyhZgBSFVfVK1zSFCyn5zkQXDSipad1jM",
-            "shortId": "",
-            "fingerprint": "random",
-            "show": false
-          },
-          "tcpSettings": {}
         }
       },
       {
@@ -1942,29 +2058,35 @@
         "settings": {
           "vnext": [
             {
-              "address": "81.94.148.162",
-              "port": 9446,
+              "address": "78.159.246.179",
+              "port": 8443,
               "users": [
                 {
-                  "id": "8571b13c-96ae-480a-8b0d-8969ceda21f8",
-                  "encryption": "none",
-                  "flow": "xtls-rprx-vision"
+                  "id": "6a2aff19-ff1f-4a13-96c8-a4d8986a9699",
+                  "encryption": "none"
                 }
               ]
             }
           ]
         },
         "streamSettings": {
-          "network": "tcp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "no.roskomnadzor.space",
-            "publicKey": "kUxaKv4LfQZyhZgBSFVfVK1zSFCyn5zkQXDSipad1jM",
-            "shortId": "",
+          "network": "xhttp",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "randomquaint.net",
             "fingerprint": "firefox",
-            "show": false
+            "show": false,
+            "alpn": [
+              "h2",
+              "http/1.1"
+            ]
           },
-          "tcpSettings": {}
+          "xhttpSettings": {
+            "path": "/api/v1/upload",
+            "mode": "auto",
+            "host": "randomquaint.net",
+            "extra": null
+          }
         }
       },
       {
@@ -1973,33 +2095,68 @@
         "settings": {
           "vnext": [
             {
-              "address": "81.94.148.162",
-              "port": 9446,
+              "address": "185.141.227.223",
+              "port": 443,
               "users": [
                 {
-                  "id": "8571b13c-96ae-480a-8b0d-8969ceda21f8",
-                  "encryption": "none",
-                  "flow": "xtls-rprx-vision"
+                  "id": "a443d7bf-f506-46ce-b64d-cf8891c0a9f7",
+                  "encryption": "none"
                 }
               ]
             }
           ]
         },
         "streamSettings": {
-          "network": "tcp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "no.roskomnadzor.space",
-            "publicKey": "kUxaKv4LfQZyhZgBSFVfVK1zSFCyn5zkQXDSipad1jM",
-            "shortId": "",
-            "fingerprint": "chrome",
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "z1q3pv4g78.rucdncomp.pro",
+            "fingerprint": "firefox",
             "show": false
           },
-          "tcpSettings": {}
+          "wsSettings": {
+            "path": "/useraction/events/b892639b7195/",
+            "headers": {
+              "Host": "z1q3pv4g78.rucdncomp.pro"
+            }
+          }
         }
       },
       {
         "tag": "cand-03",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "185.141.227.223",
+              "port": 443,
+              "users": [
+                {
+                  "id": "c720cb74-4c84-4fce-b8ae-637dbaa16199",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "z1q3pv4g78.rucdncomp.pro",
+            "fingerprint": "firefox",
+            "show": false
+          },
+          "wsSettings": {
+            "path": "/useraction/events/b892639b7195/",
+            "headers": {
+              "Host": "z1q3pv4g78.rucdncomp.pro"
+            }
+          }
+        }
+      },
+      {
+        "tag": "cand-04",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -2032,50 +2189,16 @@
         }
       },
       {
-        "tag": "cand-04",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "195.24.67.165",
-              "port": 443,
-              "users": [
-                {
-                  "id": "d44bf370-e495-4fe3-92c8-710be5598f66",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "qwq.clear-nodefast.cfd",
-            "publicKey": "DnXBmz9AHnv3Rs-4z_ZLt_sBgmTjVNXxq9aW9xkanEg",
-            "shortId": "703a00989e6967e8",
-            "fingerprint": "edge",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/assets/v1/3c81d85929030c5f11c88786/",
-            "mode": "packet-up",
-            "extra": null
-          }
-        }
-      },
-      {
         "tag": "cand-05",
         "protocol": "vless",
         "settings": {
           "vnext": [
             {
-              "address": "195.24.67.165",
+              "address": "31.177.111.121",
               "port": 443,
               "users": [
                 {
-                  "id": "d44bf370-e495-4fe3-92c8-710be5598f66",
+                  "id": "22d6aeac-771d-4a02-8237-3004d947e91e",
                   "encryption": "none"
                 }
               ]
@@ -2083,19 +2206,18 @@
           ]
         },
         "streamSettings": {
-          "network": "xhttp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "qwq.clear-nodefast.cfd",
-            "publicKey": "DnXBmz9AHnv3Rs-4z_ZLt_sBgmTjVNXxq9aW9xkanEg",
-            "shortId": "703a00989e6967e8",
-            "fingerprint": "ios",
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "api.cdnrt.net",
+            "fingerprint": "firefox",
             "show": false
           },
-          "xhttpSettings": {
-            "path": "/assets/v1/3c81d85929030c5f11c88786/",
-            "mode": "packet-up",
-            "extra": null
+          "wsSettings": {
+            "path": "/static/metrics/7c9b509840ad/",
+            "headers": {
+              "Host": "api.cdnrt.net"
+            }
           }
         }
       },
@@ -2105,11 +2227,11 @@
         "settings": {
           "vnext": [
             {
-              "address": "195.24.67.165",
+              "address": "31.177.111.121",
               "port": 443,
               "users": [
                 {
-                  "id": "d44bf370-e495-4fe3-92c8-710be5598f66",
+                  "id": "22d6aeac-771d-4a02-8237-3004d947e91e",
                   "encryption": "none"
                 }
               ]
@@ -2117,58 +2239,23 @@
           ]
         },
         "streamSettings": {
-          "network": "xhttp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "qwq.clear-nodefast.cfd",
-            "publicKey": "DnXBmz9AHnv3Rs-4z_ZLt_sBgmTjVNXxq9aW9xkanEg",
-            "shortId": "703a00989e6967e8",
-            "fingerprint": "safari",
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "api.cdnrt.net",
+            "fingerprint": "qq",
             "show": false
           },
-          "xhttpSettings": {
-            "path": "/assets/v1/3c81d85929030c5f11c88786/",
-            "mode": "packet-up",
-            "extra": null
+          "wsSettings": {
+            "path": "/static/metrics/7c9b509840ad/",
+            "headers": {
+              "Host": "api.cdnrt.net"
+            }
           }
         }
       },
       {
         "tag": "cand-07",
-        "protocol": "vless",
-        "settings": {
-          "vnext": [
-            {
-              "address": "195.24.67.165",
-              "port": 443,
-              "users": [
-                {
-                  "id": "d44bf370-e495-4fe3-92c8-710be5598f66",
-                  "encryption": "none"
-                }
-              ]
-            }
-          ]
-        },
-        "streamSettings": {
-          "network": "xhttp",
-          "security": "reality",
-          "realitySettings": {
-            "serverName": "qwq.clear-nodefast.cfd",
-            "publicKey": "DnXBmz9AHnv3Rs-4z_ZLt_sBgmTjVNXxq9aW9xkanEg",
-            "shortId": "703a00989e6967e8",
-            "fingerprint": "firefox",
-            "show": false
-          },
-          "xhttpSettings": {
-            "path": "/assets/v1/3c81d85929030c5f11c88786/",
-            "mode": "packet-up",
-            "extra": null
-          }
-        }
-      },
-      {
-        "tag": "cand-08",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -2201,7 +2288,7 @@
         }
       },
       {
-        "tag": "cand-09",
+        "tag": "cand-08",
         "protocol": "vless",
         "settings": {
           "vnext": [
@@ -2223,6 +2310,39 @@
           "tlsSettings": {
             "serverName": "cdn-01.funvideos.video",
             "fingerprint": "qq",
+            "show": false
+          },
+          "wsSettings": {
+            "path": "/api/53d53ac3/a7fa61/096357bebc62",
+            "headers": {
+              "Host": "cdn-01.funvideos.video"
+            }
+          }
+        }
+      },
+      {
+        "tag": "cand-09",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "188.225.57.92",
+              "port": 443,
+              "users": [
+                {
+                  "id": "aca886aa-9b51-4eb2-8d7a-12d6b89caf4d",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "cdn-01.funvideos.video",
+            "fingerprint": "chrome",
             "show": false
           },
           "wsSettings": {
@@ -2608,6 +2728,39 @@
         }
       },
       {
+        "tag": "cand-07",
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "45.10.246.169",
+              "port": 443,
+              "users": [
+                {
+                  "id": "aca886aa-9b51-4eb2-8d7a-12d6b89caf4d",
+                  "encryption": "none"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "ws",
+          "security": "tls",
+          "tlsSettings": {
+            "serverName": "cluster1.s3.infitycloudswagovo.best",
+            "fingerprint": "chrome",
+            "show": false
+          },
+          "wsSettings": {
+            "path": "/api/53d53ac3/a7fa61/096357bebc62",
+            "headers": {
+              "Host": "cluster1.s3.infitycloudswagovo.best"
+            }
+          }
+        }
+      },
+      {
         "tag": "direct",
         "protocol": "freedom"
       },
@@ -2653,7 +2806,8 @@
             "cand-03",
             "cand-04",
             "cand-05",
-            "cand-06"
+            "cand-06",
+            "cand-07"
           ],
           "strategy": {
             "type": "leastPing"
@@ -2671,7 +2825,8 @@
         "cand-03",
         "cand-04",
         "cand-05",
-        "cand-06"
+        "cand-06",
+        "cand-07"
       ]
     }
   },
